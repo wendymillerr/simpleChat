@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style.css">
+    <title>chat</title>
+
+</head>
+<body>
+    <div id="popupHidden" class="">
+        <div id="popup">
+            <div class="popup-content">
+                <input type="text" id="usernameInput" placeholder="Digite o seu nome...">
+                <button onclick="openChat()">Entrar no chat</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <div id="chat-container" class="hidden">
+        <div class="chatHeader">
+            <h2>Chat</h2>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input">
+            <form onsubmit="sendMessage(event)"></form>
+            <input type="text" id="message-input" placeholder="Digite sua mensagem...">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
