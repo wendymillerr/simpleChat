@@ -1,11 +1,12 @@
-const websocket = new websocket('ws://localhost:8080/conect');
+const socket = new WebSocket('ws://localhost:8080/conect');
 const Client = Stomp.over(socket);
+
 
 function openPopUp(){
     const popup = document.getElementById('popupHidden');
-    popup.classList.remove('hidden');
-}
+   // popup.classList.remove('hidden');
 
+}
 
 
 function openChat(){
@@ -14,8 +15,8 @@ function openChat(){
     const usernameInput = document.getElementById('usernameInput').value;
 
     if(usernameInput !== ""){
-        popup.classList.add('hidden')
-        chatContainer.classList.remove('hidden')
+        popup.style.display = "none"
+        chatContainer.classList.remove('hidden');
         sessionStorage.setItem('user', usernameInput)
     }else{
        alert('Digite um nome válido!')
@@ -23,9 +24,10 @@ function openChat(){
 
 }
 
+
 function sendMessage(e){
     e.preventDefault();
-    const messageInput = document.getElementById('message-input').value;
+    const messageInput = document.getElementsByClassName('message-input').value;
 
     const message = {
         user: sessionStorage.getItem('user'),
@@ -33,14 +35,15 @@ function sendMessage(e){
     };
 
     Client.send('/app/chatMessage', {}, JSON.stringify(message));
-    document.getElementById('messageInput') = "";
+    document.getElementById('message-input').value = "";
 
-    displayMessage('wendy', "oi");
 
 }
 
+
 function displayMessage(username, message){
-    const chatMessages = document.getElementById('chat-messages');
+    alert('display')
+    const chatMessages = document.getElementsById('chat-messages');
     const messageElement = document.createElement('div');
 
     messageElement.textContent = username + ": " + message;
@@ -48,18 +51,21 @@ function displayMessage(username, message){
 
 }
 
-function connect(){
+function conect(){
     Client.connect({}, function (frame){
         console.log('connected: ' + frame);
 
 
-        Client.subscribe('/canal', function(message) {
+        Client.subscribe('/chat', function(message) {
             const chatMessage = JSON.parse(message.body);
             displayMessage(chatMessage.user, chatMessage.message);
         });
     });
+
+    
+    alert('entrou em connect')
 }
 
 
-connect();
+conect();
 openPopUp();
